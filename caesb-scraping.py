@@ -26,3 +26,41 @@ def exec_request():
 response = exec_request()
 
 
+soup = BeautifulSoup(response, 'lxml')
+updateXML = soup.find_all('update')
+soup2 = BeautifulSoup(str(updateXML[0]), 'html.parser')
+
+
+cleanr = re.compile('<.*?>') 
+def cleanhtml(raw_html):
+    cleantext = re.sub(cleanr, '', raw_html)
+    return cleantext
+
+
+def get_listaGERAL():
+    cont = 0
+    listaRA = []
+    listaGERAL = []
+    for tabela_ra in list(soup2.findAll('table')[0].tbody.findAll('td')):
+        listaRA.append(cleanhtml(str(tabela_ra)))
+        cont += 1
+        if cont % 6 == 0:
+            listaGERAL.append(listaRA)
+            listaRA = []
+    return listaGERAL
+listaGERAL = get_listaGERAL()
+
+
+cei_dict = {}
+for regiao in listaGERAL:
+    if regiao[0][:3].lower() == 'cei':
+        cei_dict = {
+            'RA' : regiao[0],
+            'Áreas Afetadas' : regiao[1],
+            'Início' : regiao[2],
+            'Normalização' : regiao[3],
+            'Tipo de Falta de Água' : regiao[4],
+            'Motivo da Falta de Água' : regiao[5]
+        }
+        print(json.dumps(cei_dict, indent=4, ensure_ascii=False))
+
