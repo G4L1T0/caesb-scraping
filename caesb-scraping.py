@@ -5,10 +5,18 @@ from bs4 import BeautifulSoup
 from utils.twitter import post_tweet
 
 
-def exec_request():
+def get_JSESSIONID():
+    session = requests.Session()
+    response = session.get('https://www.caesb.df.gov.br/portal-servicos/app/publico/consultarfaltadagua?execution=e1s1')
+    dict_cookies = session.cookies.get_dict()
+    return dict_cookies['JSESSIONID'], dict_cookies['BIGipServerPOOL_ESTABILIZACAO']
+cookie_JSESSIONID, BIGipServerPOOL = get_JSESSIONID()
+
+
+def exec_request(cookie_JSESSIONID, BIGipServerPOOL):
     cookies = {
-        'JSESSIONID': 'A3BEFD006C9606E4B87A63AED8715DBD',
-        'BIGipServerPOOL_ESTABILIZACAO' : '1828832010.35105.0000'
+        'JSESSIONID': cookie_JSESSIONID,
+        'BIGipServerPOOL_ESTABILIZACAO' : BIGipServerPOOL
     }
 
     headers = {
@@ -23,7 +31,7 @@ def exec_request():
     
     if response.status_code == 200:
         return response.text
-response = exec_request()
+response = exec_request(cookie_JSESSIONID, BIGipServerPOOL)
 
 
 soup = BeautifulSoup(response, 'lxml')
