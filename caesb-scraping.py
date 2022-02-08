@@ -10,13 +10,13 @@ def get_JSESSIONID():
     response = session.get('https://www.caesb.df.gov.br/portal-servicos/app/publico/consultarfaltadagua?execution=e1s1')
     dict_cookies = session.cookies.get_dict()
     return dict_cookies['JSESSIONID'], dict_cookies['BIGipServerPOOL_ESTABILIZACAO']
-cookie_JSESSIONID, BIGipServerPOOL = get_JSESSIONID()
+cookie_JSESSIONID, cookie_BIGipServerPOOL = get_JSESSIONID()
 
 
-def exec_request(cookie_JSESSIONID, BIGipServerPOOL):
+def exec_request(cookie_JSESSIONID, cookie_BIGipServerPOOL):
     cookies = {
         'JSESSIONID': cookie_JSESSIONID,
-        'BIGipServerPOOL_ESTABILIZACAO' : BIGipServerPOOL
+        'BIGipServerPOOL_ESTABILIZACAO' : cookie_BIGipServerPOOL
     }
 
     headers = {
@@ -31,7 +31,7 @@ def exec_request(cookie_JSESSIONID, BIGipServerPOOL):
     
     if response.status_code == 200:
         return response.text
-response = exec_request(cookie_JSESSIONID, BIGipServerPOOL)
+response = exec_request(cookie_JSESSIONID, cookie_BIGipServerPOOL)
 
 
 soup = BeautifulSoup(response, 'lxml')
