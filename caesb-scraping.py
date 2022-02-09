@@ -3,6 +3,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from utils.twitter import post_tweet
+from utils.mongodb import inputDB, updateDB
 
 
 def get_JSESSIONID():
@@ -61,7 +62,7 @@ listaGERAL = get_listaGERAL()
 
 cei_dict = {}
 for regiao in listaGERAL:
-    if regiao[0][:3].lower() == 'cei':
+    if regiao[0].lower().count('cei'):
         cei_dict = {
             'RA' : regiao[0],
             'Áreas Afetadas' : regiao[1],
@@ -70,5 +71,7 @@ for regiao in listaGERAL:
             'Tipo de Falta de Água' : regiao[4],
             'Motivo da Falta de Água' : regiao[5]
         }
-        print(json.dumps(cei_dict, indent=4, ensure_ascii=False))
+        # print(json.dumps(cei_dict, indent=4, ensure_ascii=False))
+
+        updateDB(cei_dict)
 
