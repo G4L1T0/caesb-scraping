@@ -3,7 +3,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from utils.twitter import post_tweet
-from utils.mongodb import inputDB, updateDB
+from utils.mongodb import inputDB, updateDB, db_cei
 
 
 def get_JSESSIONID():
@@ -59,19 +59,29 @@ def get_listaGERAL():
     return listaGERAL
 listaGERAL = get_listaGERAL()
 
+infos_ceilandia = db_cei()
 
-cei_dict = {}
-for regiao in listaGERAL:
-    if regiao[0].lower().count('cei'):
-        cei_dict = {
-            'RA' : regiao[0],
-            'Áreas Afetadas' : regiao[1],
-            'Início' : regiao[2],
-            'Normalização' : regiao[3],
-            'Tipo de Falta de Água' : regiao[4],
-            'Motivo da Falta de Água' : regiao[5]
-        }
-        # print(json.dumps(cei_dict, indent=4, ensure_ascii=False))
+def get_cei():
+    cei_list = []
+    for regiao in listaGERAL:
+        if regiao[0].lower().count('ma'):
+            cei_dict = {
+                'RA' : regiao[0],
+                'Áreas Afetadas' : regiao[1],
+                'Início' : regiao[2],
+                'Normalização' : regiao[3],
+                'Tipo de Falta de Água' : regiao[4],
+                'Motivo da Falta de Água' : regiao[5]
+            }
+            cei_list.append(cei_dict)
+    return cei_list
+cei_list = get_cei()
 
-        updateDB(cei_dict)
+
+if len(list(infos_ceilandia.find())) == 0:
+    for new_data in cei_list:
+        inputDB(new_data)
+else:
+    updateDB(cei_list)
+
 
