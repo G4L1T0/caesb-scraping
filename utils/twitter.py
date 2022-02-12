@@ -35,3 +35,5 @@ Tipo de Falta de Água: {item_dict["Tipo de Falta de Água"]}
 Motivo da Falta de Água: {item_dict["Motivo da Falta de Água"]}
 '''
     return message
+
+

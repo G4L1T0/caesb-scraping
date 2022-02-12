@@ -2,6 +2,7 @@ import os
 import json
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from utils.twitter import post_tweet, message_tweet
 
 load_dotenv()
 link_DB = os.environ.get('LINK_DB')
@@ -38,7 +39,9 @@ def updateDB(list_dict):
 
         if contador == len(DB_ultimos_dez):
             inputDB(cei_item)
+            post_tweet(message_tweet(cei_item))
 
 
 # infos_ceilandia.drop()
+
 

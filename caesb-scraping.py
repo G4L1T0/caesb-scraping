@@ -2,7 +2,7 @@ import re
 import json
 import requests
 from bs4 import BeautifulSoup
-from utils.twitter import post_tweet
+from utils.twitter import post_tweet, message_tweet
 from utils.mongodb import inputDB, updateDB, db_cei
 
 
@@ -81,6 +81,7 @@ cei_list = get_cei()
 if len(list(infos_ceilandia.find())) == 0:
     for new_data in cei_list:
         inputDB(new_data)
+        post_tweet(message_tweet(new_data))
 else:
     updateDB(cei_list)
 
