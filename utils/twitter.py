@@ -23,3 +23,15 @@ def post_tweet(message):
     print(response)
 
 
+def message_tweet(item_dict):
+    message = f'''
+Falta de água! 🚨📢
+
+Região: {item_dict["RA"]}
+Áreas Afetadas: {item_dict["Áreas Afetadas"]}
+Início: {item_dict["Início"]}
+Normalização: {item_dict["Normalização"]}
+Tipo de Falta de Água: {item_dict["Tipo de Falta de Água"]}
+Motivo da Falta de Água: {item_dict["Motivo da Falta de Água"]}
+'''
+    return message
