@@ -20,7 +20,7 @@ def post_tweet(message):
     )
 
     response = client.create_tweet(text=message)
-    print(response)
+    print(f"\033[0;32m[ + ]\033[0;0m Tweet: {response.data['id']}")
 
 
 def message_tweet(item_dict):
