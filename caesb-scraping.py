@@ -64,7 +64,7 @@ infos_ceilandia = db_cei()
 def get_cei():
     cei_list = []
     for regiao in listaGERAL:
-        if regiao[0].lower().count('cei'):
+        if regiao[0].lower().count('silia'):
             cei_dict = {
                 'RA' : regiao[0],
                 'Áreas Afetadas' : regiao[1],
