@@ -3,7 +3,7 @@ name: Run caesb-scraping.py
 on:
   schedule:
     #- cron: "0 * * * *"
-    - cron: "20 * * * *"
+    - cron: "*/20 * * * *"
 jobs:
   run-script:
     runs-on: ubuntu-latest
