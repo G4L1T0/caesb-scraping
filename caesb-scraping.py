@@ -10,7 +10,7 @@ def get_JSESSIONID():
     session = requests.Session()
     response = session.get('https://www.caesb.df.gov.br/portal-servicos/app/publico/consultarfaltadagua?execution=e1s1')
     dict_cookies = session.cookies.get_dict()
-    return dict_cookies['JSESSIONID'], dict_cookies['BIGipServerPOOL_K8S_PROD']
+    return dict_cookies['JSESSIONID'], list(dict_cookies.values())[0]
 cookie_JSESSIONID, cookie_BIGipServerPOOL = get_JSESSIONID()
 
 
